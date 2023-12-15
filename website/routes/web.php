@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\BookController;
-use App\Http\Controllers\admin\CategoryController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\BlogController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Postcontroller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,14 +23,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test', function () {
-    return view('test');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/tinymce', function () {
+    return view('tinymce');
 });
 
-Route::get("/admin/category", [CategoryController::class,"index"])->name("admin.category.index");
-Route::get("/admin/category/add", [CategoryController::class,"add"])->name("admin.category.add");
+Route::get('/add', [PostController::class,'add'])->name('post.add');
+Route::post('/add', [PostController::class,'store'])->name('post.store');
+Route::get('/edit/{id}', [PostController::class,'edit'])->name('post.edit');
+Route::post('/edit/{id}', [PostController::class,'update'])->name('post.update');
+Route::get('/delete/{id}', [PostController::class,'destroy'])->name('post.destroy');
 
-Route::get("/admin", [AdminController::class,"homepage"])->name("admin.homepage");
-Route::get("/admin/book", [BookController::class,"index"])->name("admin.book.index");
+Route::get('/blog', [BlogController::class, 'blog'])->name('blog');
 
 
